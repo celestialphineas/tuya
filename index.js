@@ -149,11 +149,23 @@ class Tuya {
     // Add the last frame
     gif.addFrame(this._animationCtx, { delay: 1000, copy: true })
     gif.on('finished', blob => {
-      // download blob
-      const a = document.createElement('a')
-      a.href = URL.createObjectURL(blob)
-      a.download = 'drawing.gif'
-      a.click()
+      function download() {
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(blob)
+        a.download = 'drawing.gif'
+        a.click()
+      }
+      // Share blob via navigator.share
+      if (navigator.share) {
+        const file = new File([ blob ], 'drawing.gif', { type: 'image/gif' })
+        navigator.share({
+          title: '涂鸦',
+          text: '当前内容的涂鸦',
+          files: [ file ]
+        }).catch(download)
+      } else {
+        download()
+      }
       callback()
     })
     gif.render()
