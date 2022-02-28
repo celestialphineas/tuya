@@ -1,5 +1,6 @@
 body {
   font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+  text-align: center;
 }
 
 h1 {
@@ -11,6 +12,44 @@ h1 {
   margin-bottom: 8px;
 }
 
+.slider-container {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 90vw; max-width: 500px;
+  height: 4px;
+  border-radius: 2px;
+  background: #d3d3d3;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #0089A7;
+  transition: all 250ms;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #0089A7;
+  transition: all 250ms;
+}
+
+.slider::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+}
+
+.slider::-moz-range-thumb:active {
+  transform: scale(1.2);
+}
+
 #tuya-canvas {
   width: 90vw; max-width: 500px;
   height: 90vw; max-height: 500px;
@@ -20,14 +59,10 @@ h1 {
 }
 
 button:not(:active) {
-  outline: none;
   color: #0089A7;
   background: white;
-  border: solid 2px #0089A7;
-  border-radius: 10px;
   padding: 10px;
-  margin: 5px;
-  transition: all 200ms;
+  transition: all 250ms;
 }
 
 button {
@@ -38,10 +73,25 @@ button {
   border-radius: 10px;
   padding: 8px;
   margin: 5px;
-  transition: all 200ms;
+  transition: all 250ms;
 }
 
 button:disabled {
   color: #888;
   border: solid 2px #DDD;
+}
+
+.color-button {
+  width: 26px; height: 26px;
+  padding: 0;
+  margin: 4px;
+  border: 1px #FFFFFF55 solid;
+  box-shadow: 1px 2px 8px #00000066;
+  border-radius: 50%;
+  transform: scale(1.5);
+}
+
+.color-button:not(:active) {
+  padding: 0;
+  transform: scale(1);
 }

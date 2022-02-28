@@ -1,21 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="index.css">
-  <title>Tuya</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>涂鸦</title>
 </head>
 <body>
   <div style="text-align:center;"><h1>涂鸦</h1></div>
   <div id="container" style="text-align:center;">
     <canvas id="tuya-canvas"></canvas>
   </div>
+  <div style="text-align:center;padding:16px 0px;">
+    <button class="color-button" style="background-color:black;"></button>
+    <button class="color-button" style="background-color:gray;"></button>
+    <button class="color-button" style="background-color:#F15A5A;"></button>
+    <button class="color-button" style="background-color:#F37736;"></button>
+    <button class="color-button" style="background-color:#F0C419;"></button>
+    <button class="color-button" style="background-color:#4EBA6F;"></button>
+    <button class="color-button" style="background-color: #28A0A8;"></button>
+    <button class="color-button" style="background-color:#22A6D4;"></button>
+    <button class="color-button" style="background-color:#8845A2;"></button>
+  </div>
+  <div class="slider-container">
+    <input type="range" min="1" max="20" value="8" class="slider" id="thickness" step="0.1" style="margin: auto;" onchange="tuya.currentStrokeWidth = parseFloat(this.value)">
+  </div>
   <div style="text-align:center;">
-    <button onclick="tuya.clear()">CLEAR</button>
-    <button onclick="tuya.undo()">UNDO</button>
-    <button id="done-button" onclick="done()">DONE</button>
+    <button onclick="tuya.clear()"><i class="fa-solid fa-eraser"></i> 清空</button>
+    <button onclick="tuya.undo()"><i class="fa-solid fa-rotate-left"></i> 撤销</button>
+    <button id="done-button" onclick="done()"><i class="fa-solid fa-check"></i> 完成</button>
   </div>
 </body>
 <script src="js/gif.js"></script>
@@ -24,13 +39,19 @@
 var tuya = new Tuya('tuya-canvas')
 function done() {
   const button = document.getElementById('done-button')
-  const content = button.innerText
+  const content = button.innerHTML
   button.disabled = true
-  button.innerText = 'Saving...'
+  button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> 保存中...'
   tuya.done(() => {
     button.disabled = false
-    button.innerText = content
+    button.innerHTML = content
   })
 }
+
+document.querySelectorAll('.color-button').forEach(button => {
+  button.addEventListener('click', () => {
+    tuya.currentColor = button.style.backgroundColor
+  })
+})
 </script>
 </html>
