@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>Tuya</title>
+</head>
+<body>
+  <div style="text-align:center;"><h1>涂鸦</h1></div>
+  <div id="container" style="text-align:center;">
+    <canvas id="tuya-canvas"></canvas>
+  </div>
+  <div style="text-align:center;">
+    <button onclick="tuya.clear()">CLEAR</button>
+    <button onclick="tuya.undo()">UNDO</button>
+    <button id="done-button" onclick="done()">DONE</button>
+  </div>
+</body>
+<script src="js/gif.js"></script>
+<script src="index.js"></script>
+<script>
+var tuya = new Tuya('tuya-canvas')
+function done() {
+  const button = document.getElementById('done-button')
+  const content = button.innerText
+  button.disabled = true
+  button.innerText = 'Saving...'
+  tuya.done(() => {
+    button.disabled = false
+    button.innerText = content
+  })
+}
+</script>
+</html>

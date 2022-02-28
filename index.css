@@ -1,0 +1,47 @@
+body {
+  font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+
+h1 {
+  color: #016177;
+}
+
+#container {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+#tuya-canvas {
+  width: 90vw; max-width: 500px;
+  height: 90vw; max-height: 500px;
+  outline: 1px #0089A7DD solid;
+  border-radius: 8px;
+  box-shadow: 2px 2px 16px #0089A766;
+}
+
+button:not(:active) {
+  outline: none;
+  color: #0089A7;
+  background: white;
+  border: solid 2px #0089A7;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px;
+  transition: all 200ms;
+}
+
+button {
+  outline: none;
+  color: white;
+  background: #0089A7;
+  border: solid 2px #0089A7;
+  border-radius: 10px;
+  padding: 8px;
+  margin: 5px;
+  transition: all 200ms;
+}
+
+button:disabled {
+  color: #888;
+  border: solid 2px #DDD;
+}
