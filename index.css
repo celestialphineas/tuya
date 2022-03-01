@@ -53,7 +53,7 @@ h1 {
 #tuya-canvas {
   width: 90vw; max-width: 500px;
   height: 90vw; max-height: 500px;
-  outline: 1px #0089A7DD solid;
+  border: 1px #0089A7DD solid;
   border-radius: 8px;
   box-shadow: 2px 2px 16px #0089A766;
 }
