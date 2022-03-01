@@ -30,22 +30,23 @@
   <div style="text-align:center;">
     <button onclick="tuya.clear()"><i class="fa-solid fa-eraser"></i> 清空</button>
     <button onclick="tuya.undo()"><i class="fa-solid fa-rotate-left"></i> 撤销</button>
-    <button id="done-button" onclick="done()"><i class="fa-solid fa-check"></i> 完成</button>
+    <button id="webm-button" onclick="done(this, 'webm')"><i class="fa-solid fa-download"></i> WEBM</button>
+    <button id="gif-button" onclick="done(this, 'gif')"><i class="fa-solid fa-download"></i> GIF</button>
   </div>
 </body>
+<script src="js/whammy.js"></script>
 <script src="js/gif.js"></script>
 <script src="index.js"></script>
 <script>
 var tuya = new Tuya('tuya-canvas')
-function done() {
-  const button = document.getElementById('done-button')
+function done(button, type) {
   const content = button.innerHTML
   button.disabled = true
   button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> 保存中...'
   tuya.done(() => {
     button.disabled = false
     button.innerHTML = content
-  })
+  }, { type })
 }
 
 document.querySelectorAll('.color-button').forEach(button => {
@@ -53,5 +54,10 @@ document.querySelectorAll('.color-button').forEach(button => {
     tuya.currentColor = button.style.backgroundColor
   })
 })
+
+// hide the webm-button in safari
+if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+  document.getElementById('webm-button').style.display = 'none'
+}
 </script>
 </html>

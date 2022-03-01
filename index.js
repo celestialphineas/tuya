@@ -1,7 +1,7 @@
 // $ live-serve .
 (function() {
   const SIZE = 512
-  const SPEED = 8
+  const SPEED = 6
   
   class Tuya {
     /** @param { string | HTMLCanvasElement } canvas */
@@ -138,11 +138,16 @@
   
     update() { this.render() }
   
-    done(callback) {
-      const gif = new GIF({
-        workers: 4, quality: 8, width: SIZE, height: SIZE,
-        workerScript: 'js/gif.worker.js'
-      })
+    done(callback = () => {}, { type = 'gif' } = {}) {
+      let gif, whammy
+      if (type === 'gif') {
+        gif = new GIF({
+          workers: 4, quality: 10, width: SIZE, height: SIZE,
+          workerScript: 'js/gif.worker.js'
+        })
+      } else {
+        whammy = new Whammy.Video()
+      }
       const ctx = this._animationCtx
       ctx.fillRect(0, 0, SIZE, SIZE)
       let i = 0
@@ -154,34 +159,55 @@
           ctx.lineTo(x, y)
           ctx.stroke()
           if (i % SPEED === 0) {
-            gif.addFrame(this._animationCtx, { delay: 100, copy: true })
+            if (type === 'gif') {
+              gif.addFrame(this._animationCtx, { delay: 100, copy: true })
+            } else {
+              whammy.add(this._animationCtx, 100)
+            }
           }
           i++
         })
       })
-      // Add the last frame
-      gif.addFrame(this._animationCtx, { delay: 1000, copy: true })
-      gif.on('finished', blob => {
-        function download() {
-          const a = document.createElement('a')
-          a.href = URL.createObjectURL(blob)
-          a.download = 'drawing.gif'
-          a.click()
-        }
-        // Share blob via navigator.share
+
+      function download(blob, extension) {
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(blob)
+        a.download = `drawing.${extension}`
+        a.click()
+      }
+
+      function handleBlob(blob, { type = 'gif' } = {}) {
         if (navigator.share) {
-          const file = new File([ blob ], 'drawing.gif', { type: 'image/gif' })
+          const mime = { 
+            'gif': 'image/gif',
+            'webm': 'video/webm'
+          }[type]
+          const file = new File([blob], 'drawing.' + type, { type: mime })
+          
           navigator.share({
             title: '涂鸦',
-            text: '当前内容的涂鸦',
             files: [ file ]
-          }).catch(download)
+          }).catch(blob => download(blob, type))
         } else {
-          download()
+          download(blob, type)
         }
-        callback()
-      })
-      gif.render()
+      }
+
+      // Add the last frame
+      if (type === 'gif') {
+        gif.addFrame(this._animationCanvas, { delay: 2000, copy: true })
+        gif.on('finished', blob => {
+          handleBlob(blob, { type: 'gif' })
+          callback()
+        })
+        gif.render()
+      } else {
+        whammy.add(this._animationCanvas, 2000)
+        whammy.compile(false, (blob) => {
+          handleBlob(blob, { type: 'webm' })
+          callback()
+        })
+      }
     }
   }
   window.Tuya = Tuya
