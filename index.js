@@ -187,7 +187,7 @@
           navigator.share({
             title: '涂鸦',
             files: [ file ]
-          }).catch(blob => download(blob, type))
+          }).catch(() => download(blob, type))
         } else {
           download(blob, type)
         }
