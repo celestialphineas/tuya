@@ -59,5 +59,15 @@ document.querySelectorAll('.color-button').forEach(button => {
 if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
   document.getElementById('webm-button').style.display = 'none'
 }
+
+// Undo when Ctrl + z on Windows/Linux, cmd + z on macOS
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey) {
+    if (e.key === 'z') {
+      e.preventDefault()
+      tuya.undo()
+    }
+  }
+})
 </script>
 </html>

@@ -79,6 +79,21 @@
       this.canvas.addEventListener('mouseup', drawEnds)
       this.canvas.addEventListener('mouseleave', drawEnds)
       this.canvas.addEventListener('touchend', drawEnds)
+      // Double fingure undo
+      this.canvas.addEventListener('touchstart', e => {
+        if (e.touches.length === 2) {
+          this._readyToUndo = true
+        }
+      })
+      this.canvas.addEventListener('touchmove', e => {
+        this._readyToUndo = false
+      })
+      this.canvas.addEventListener('touchend', e => {
+        if (this._readyToUndo) { this.undo(); this._readyToUndo = false }
+      })
+      this.canvas.addEventListener('touchcancel', e => {
+        this._readyToUndo = false
+      })
     }
   
     beginDrawing() {
@@ -127,7 +142,10 @@
     }
   
     undo() {
-      if (this._drawnPaths.length > 0) this._drawnPaths.pop()
+      const popped = this._drawnPaths.pop()
+      if (popped !== undefined && popped.path.length === 0) {
+        this._drawnPaths.pop()
+      }
       this.update()
     }
   
